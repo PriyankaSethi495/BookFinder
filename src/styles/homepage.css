@@ -16,12 +16,7 @@ body {
   h1 {
     margin-bottom: 20px;
   }
-  
-  .search-bar {
-    display: flex;
-    gap: 10px;
 
-  }
   
   .search-input {
     padding: 10px;
@@ -203,7 +198,6 @@ body {
   
   /* Add margin for filters */
   .filter-section {
-    margin-bottom: 20px;
     display: flex;
     gap: 15px;
     justify-content: center;
@@ -250,6 +244,7 @@ body {
   .search-container .filter-section,
   .search-container .search-bar {
     flex-grow: 1;
+    
   }
   
   .search-container select,
@@ -272,3 +267,8 @@ body {
     background-color: #45a049;
   }
   
+  @media screen and (max-width:900px) {
+    .search-container{
+        flex-direction: column;
+    }
+  }

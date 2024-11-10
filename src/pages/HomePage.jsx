@@ -106,10 +106,13 @@ const HomePage = () => {
         onSearch={onSearch}
         searchType={searchType}
         handleSearchTypeChange={handleSearchTypeChange}
+        selectedLanguage={selectedLanguage}        
+        handleLanguageChange={handleLanguageChange} 
+        hasSearched= {hasSearched}
       />
 
        {/* Language Filter Dropdown */}
-      {hasSearched &&
+      {/* {hasSearched &&
       (<div className="filter-section">
         <label htmlFor="language">Select Language:</label>
         <select id="language" value={selectedLanguage} onChange={handleLanguageChange}>
@@ -125,7 +128,7 @@ const HomePage = () => {
           <option value="por">Portuguese</option>
           <option value="und">Undetermined</option>
         </select>
-      </div>)}
+      </div>)} */}
 
        {/* Subject Filter Dropdown */}
       {/* <div className="filter-section">
