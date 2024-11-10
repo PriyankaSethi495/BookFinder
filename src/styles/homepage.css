@@ -20,7 +20,7 @@ body {
   .search-bar {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+
   }
   
   .search-input {
@@ -144,19 +144,7 @@ body {
     gap: 5px;
   }
   
-  .filter-section {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .filter-section select {
-    padding: 8px;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
+
 /* ratingstars.css */
 
 .star-rating {
@@ -193,5 +181,94 @@ body {
   /* Three-quarters Star */
   .three-quarters-star {
     clip-path: polygon(0 0, 75% 0, 75% 100%, 0% 100%);
+  }
+
+
+/* Add styles for dropdowns (Language, Subject, Search Type) */
+.filter-section select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    width: 200px; /* Ensure the dropdowns are wide enough */
+  }
+  
+  .filter-section select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Add margin for filters */
+  .filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Add label styling for filters */
+  .filter-section label {
+    font-size: 16px;
+    color: white;
+    margin-right: 10px;
+  }
+  
+  /* Optional: Increase the width of the dropdown for a better layout */
+  .search-type select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    margin-bottom: 20px;
+    width: 200px; /* To match the other dropdowns */
+  }
+  
+  .search-type select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .search-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    background-color: #d9e3d1;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+  }
+  
+  .search-container .search-type,
+  .search-container .filter-section,
+  .search-container .search-bar {
+    flex-grow: 1;
+  }
+  
+  .search-container select,
+  .search-container input,
+  .search-container button {
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-container button {
+    cursor: pointer;
+    background-color: #45a049;
+    color: white;
+    border: none;
+  }
+  
+  .search-container button:hover {
+    background-color: #45a049;
   }
   

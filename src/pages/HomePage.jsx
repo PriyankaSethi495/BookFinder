@@ -13,73 +13,131 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBook, setSelectedBook] = useState(null); // To store the selected book for modal
   const [selectedLanguage, setSelectedLanguage] = useState(''); // Store selected language
+  const [allSubjects, setAllSubjects] = useState([]); // Store All subjects of the results
+  const [selectedSubject, setSelectedSubject] = useState(''); // Store selected subject
+  const [searchType, setSearchType] = useState('all'); // Store the selected search type
 
-  // Fetch books based on the search query, page, and language
-  const handleSearch = async (query, pageNumber = 1, language = '') => {
+   // Fetch books based on the search query, page, language and subject
+  const handleSearch = async (query, pageNumber = 1, language = '', subject = '', searchType = 'all') => {
     if (!query) return;
     setLoading(true);
     try {
-      const url = `https://openlibrary.org/search.json?title=${query}&page=${pageNumber}&limit=12${language ? `&language=${language}` : ''}`;
+      let url = `https://openlibrary.org/search.json?page=${pageNumber}&limit=12`;
+
+      if (searchType === 'title') {
+        url += `&title=${query}`;
+      } else if (searchType === 'author') {
+        url += `&author=${query}`;
+      } else if (searchType === 'subject') {
+        url += `&subject=${query}`;
+      } else {
+        url += `&q=${query}`;  // Default search for "all" fields
+      }
+
+      if (language) url += `&language=${language}`;
+      if (subject) url += `&subject=${subject}`;
+
       const response = await fetch(url);
       const data = await response.json();
       setBooks(data.docs);
       setTotalPages(Math.ceil(data.numFound / 12));
-    } catch (error) {
+
+      // Collect all subjects from the results
+      const subjects = data.docs.flatMap(book => book.subject || []);
+      const uniqueSubjects = Array.from(new Set(subjects));
+      setAllSubjects(uniqueSubjects.slice(0, 10)); // Show top 10 subjects
+    }  catch (error) {
       console.error("Error fetching books:", error);
     }
     setLoading(false);
     setHasSearched(true);
   };
 
+  //Handle the search operation
   const onSearch = (query) => {
     setSearchQuery(query);
     setPage(1);
-    handleSearch(query, 1, selectedLanguage);
+    handleSearch(query, 1, selectedLanguage, selectedSubject, searchType);
   };
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
-    setPage(newPage);
-    handleSearch(searchQuery, newPage, selectedLanguage);
+      setPage(newPage);
+      handleSearch(searchQuery, newPage, selectedLanguage, selectedSubject, searchType);
     }
   };
 
-  const handleLanguageChange = (event) => {
-    setSelectedLanguage(event.target.value); // Update selected language
-    setPage(1); // Reset to first page when filter changes
-    handleSearch(searchQuery, 1, event.target.value); // Fetch books with selected language
+   // Update search type
+   const handleSearchTypeChange = (event) => {
+    setSearchType(event.target.value);
   };
-  
+
+  const handleLanguageChange = (event) => {
+    // Update selected language
+    setSelectedLanguage(event.target.value);
+     // Reset to first page when filter changes
+    setPage(1);
+    handleSearch(searchQuery, 1, event.target.value, selectedSubject, searchType);   // Fetch books with selected language
+  };
+
   const openModal = (book) => {
-    setSelectedBook(book); // Set the selected book data
+    setSelectedBook(book);
   };
 
   const closeModal = () => {
-    setSelectedBook(null); // Close the modal
+    setSelectedBook(null);
   };
 
+  const handleSubjectFilter = (event) => {
+    setSelectedSubject(encodeURIComponent(event.target.value));
+    setPage(1);
+    handleSearch(searchQuery, 1, selectedLanguage, event.target.value, searchType);
+  };
 
   return (
     <div className="container">
       <h1>Your Book Finder</h1>
-      <SearchBar onSearch={onSearch} />
+
+            {/* Search Type Dropdown */}
+        <div className="search-container">
+        <div className="search-type">
+          <select value={searchType} onChange={handleSearchTypeChange}>
+            <option value="all">All</option>
+            <option value="author">Author</option>
+            <option value="title">Title</option>
+            <option value="subject">Subject</option>
+          </select>
+      </div>
       
-        {/* Language Filter Dropdown */}
-        <div className="filter-section">
+      <SearchBar onSearch={onSearch} />
+      </div>
+
+       {/* Language Filter Dropdown */}
+      <div className="filter-section">
         <label htmlFor="language">Select Language:</label>
         <select id="language" value={selectedLanguage} onChange={handleLanguageChange}>
-        <option value="">All Languages</option>
-        <option value="eng">English</option>
-        <option value="fre">French</option>
-        <option value="ger">German</option>
-        <option value="spa">Spanish</option>
-        <option value="ita">Italian</option>
-        <option value="chi">Chinese</option>
-        <option value="cmn">Mandarin</option>
-        <option value="hin">Hindi</option>
-        <option value="por">Portuguese</option>
-        <option value="und">Undetermined</option>
-          {/* Add more language options as needed */}
+          <option value="">All Languages</option>
+          <option value="eng">English</option>
+          <option value="fre">French</option>
+          <option value="ger">German</option>
+          <option value="spa">Spanish</option>
+          <option value="ita">Italian</option>
+          <option value="chi">Chinese</option>
+          <option value="cmn">Mandarin</option>
+          <option value="hin">Hindi</option>
+          <option value="por">Portuguese</option>
+          <option value="und">Undetermined</option>
+        </select>
+      </div>
+
+       {/* Subject Filter Dropdown */}
+      <div className="filter-section">
+        <label htmlFor="subject">Select Subject:</label>
+        <select id="subject" value={selectedSubject} onChange={handleSubjectFilter}>
+          <option value="">All Subjects</option>
+          {allSubjects.map((subject, index) => (
+            <option key={index} value={subject}>{subject}</option>
+          ))}
         </select>
       </div>
 
@@ -102,20 +160,11 @@ const HomePage = () => {
               <h3>{book.title}</h3>
               <p>{book.author_name?.join(', ')}</p>
               <p>{book.first_publish_year}</p>
-              {/* Display Rating */}
-              {book.ratings_average ? (
-                <div className="book-rating">
-                  <span>Rating: {(book.ratings_average).toFixed(1)}</span><span> ({book.ratings_count} reviews)</span>
-                </div>
-              ) : (
-                <p className="no-rating">No rating available</p>
-              )}
             </div>
           ))
         )}
       </div>
 
-      
       <div className="pagination">
         <button
           onClick={() => handlePageChange(page - 1)}
@@ -131,7 +180,8 @@ const HomePage = () => {
           Next
         </button>
       </div>
-      {selectedBook && <BookModal book={selectedBook} closeModal={closeModal} />} {/* Display the modal when a book is selected */}
+      {/* Display the modal when a book is selected */}
+      {selectedBook && <BookModal book={selectedBook} closeModal={closeModal} />}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const SearchBar = ({ onSearch }) => {
     <div className="search-bar">
       <input
         type="text"
-        placeholder="Enter a book title"
+        placeholder="Search for a book..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="search-input"
