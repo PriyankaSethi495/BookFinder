@@ -47,7 +47,6 @@ const HomePage = () => {
       <h1>Your Book Finder</h1>
       <SearchBar onSearch={onSearch} />
       {loading && <Spinner />}
-
       <div className="book-results">
         {hasSearched && books.length === 0 ? (
           <p className="no-results">No books found. Try a different search.</p>
@@ -66,6 +65,14 @@ const HomePage = () => {
               <h3>{book.title}</h3>
               <p>{book.author_name?.join(', ')}</p>
               <p>{book.first_publish_year}</p>
+              {/* Display Rating */}
+              {book.ratings_average ? (
+                <div className="book-rating">
+                  <span>Rating: {(book.ratings_average).toFixed(1)}</span><span> ({book.ratings_count} reviews)</span>
+                </div>
+              ) : (
+                <p className="no-rating">No rating available</p>
+              )}
             </div>
           ))
         )}

@@ -124,3 +124,17 @@ body {
     font-size: 16px;
     color: white;
   }
+
+  .book-rating {
+    font-size: 14px;
+    color: #FFD700; /* Gold color for rating */
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .no-rating {
+    font-size: 14px;
+    color: #ccc; /* Grey color for no rating message */
+    margin-top: 10px;
+  }
+  
