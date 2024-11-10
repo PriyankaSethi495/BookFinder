@@ -27,7 +27,7 @@ const SearchBar = ({ onSearch, searchType, handleSearchTypeChange, selectedLangu
             onChange={(e) => setQuery(e.target.value)}
             className="search-input"
         />
-                              {/* Language Filter Dropdown */}
+    {/* Language Filter Dropdown */}
       {hasSearched && <div className="filter-section">
         <select value={selectedLanguage} onChange={handleLanguageChange}>
           <option value="">All Languages</option>

@@ -13,8 +13,6 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBook, setSelectedBook] = useState(null); // To store the selected book for modal
   const [selectedLanguage, setSelectedLanguage] = useState(''); // Store selected language
-  const [allSubjects, setAllSubjects] = useState([]); // Store All subjects of the results
-  const [selectedSubject, setSelectedSubject] = useState(''); // Store selected subject
   const [searchType, setSearchType] = useState('all'); // Store the selected search type
 
    // Fetch books based on the search query, page, language and subject
@@ -43,11 +41,6 @@ const HomePage = () => {
 
       //Pagination
       setTotalPages(Math.ceil(data.numFound / 12));
-
-      // Collect all subjects from the results
-      const subjects = data.docs.flatMap(book => book.subject || []);
-      const uniqueSubjects = Array.from(new Set(subjects));
-      setAllSubjects(uniqueSubjects.slice(0, 10)); // Show top 10 subjects
     }  catch (error) {
       console.error("Error fetching books:", error);
     }
@@ -59,13 +52,13 @@ const HomePage = () => {
   const onSearch = (query) => {
     setSearchQuery(query);
     setPage(1);
-    handleSearch(query, 1, selectedLanguage, selectedSubject, searchType);
+    handleSearch(query, 1, selectedLanguage, searchType);
   };
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
-      handleSearch(searchQuery, newPage, selectedLanguage, selectedSubject, searchType);
+      handleSearch(searchQuery, newPage, selectedLanguage, searchType);
     }
   };
 
@@ -79,7 +72,7 @@ const HomePage = () => {
     setSelectedLanguage(event.target.value);
      // Reset to first page when filter changes
     setPage(1);
-    handleSearch(searchQuery, 1, event.target.value, selectedSubject, searchType);   // Fetch books with selected language
+    handleSearch(searchQuery, 1, event.target.value, searchType);   // Fetch books with selected language
   };
 
   const openModal = (book) => {
@@ -90,11 +83,6 @@ const HomePage = () => {
     setSelectedBook(null);
   };
 
-  const handleSubjectFilter = (event) => {
-    setSelectedSubject(encodeURIComponent(event.target.value));
-    setPage(1);
-    handleSearch(searchQuery, 1, selectedLanguage, event.target.value, searchType);
-  };
 
   return (
     <div className="container">
@@ -110,36 +98,6 @@ const HomePage = () => {
         handleLanguageChange={handleLanguageChange} 
         hasSearched= {hasSearched}
       />
-
-       {/* Language Filter Dropdown */}
-      {/* {hasSearched &&
-      (<div className="filter-section">
-        <label htmlFor="language">Select Language:</label>
-        <select id="language" value={selectedLanguage} onChange={handleLanguageChange}>
-          <option value="">All Languages</option>
-          <option value="eng">English</option>
-          <option value="fre">French</option>
-          <option value="ger">German</option>
-          <option value="spa">Spanish</option>
-          <option value="ita">Italian</option>
-          <option value="chi">Chinese</option>
-          <option value="cmn">Mandarin</option>
-          <option value="hin">Hindi</option>
-          <option value="por">Portuguese</option>
-          <option value="und">Undetermined</option>
-        </select>
-      </div>)} */}
-
-       {/* Subject Filter Dropdown */}
-      {/* <div className="filter-section">
-        <label htmlFor="subject">Select Subject:</label>
-        <select id="subject" value={selectedSubject} onChange={handleSubjectFilter}>
-          <option value="">All Subjects</option>
-          {allSubjects.map((subject, index) => (
-            <option key={index} value={subject}>{subject}</option>
-          ))}
-        </select>
-      </div> */}
 
       {loading && <Spinner />}
       <div className="book-results">
