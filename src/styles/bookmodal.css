@@ -1,0 +1,97 @@
+/* General modal styles */
+.book-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: black;
+    text-align: center;
+  }
+  
+  .modal-content {
+    background-color: white;
+    width: 60%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow-y: auto; /* Allows vertical scrolling */
+    max-height: 90vh;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: #ff0000;
+  }
+  
+  /* Modal body and section styles */
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    overflow-y: auto; 
+  }
+  
+  .book-info,
+  .book-rating-section,
+  .book-additional-info {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Book Info Section */
+  .book-info h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .book-info p {
+    margin: 5px 0;
+  }
+  
+  /* Rating Section */
+  .book-rating-section h3 {
+    margin: 0;
+  }
+  
+  /* Additional Info Section */
+  .book-additional-info p {
+    margin: 5px 0;
+  }
+  
+  .description {
+    margin-top: 10px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }

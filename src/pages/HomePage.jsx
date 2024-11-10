@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import '../styles/homepage.css';
 import Spinner from '../components/Spinner';
+import BookModal from '../components/BookModal';
 
 const HomePage = () => {
   const [books, setBooks] = useState([]);
@@ -10,6 +11,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedBook, setSelectedBook] = useState(null); // To store the selected book for modal
 
   // Fetch books based on the search query, page, and language
   const handleSearch = async (query, pageNumber = 1) => {
@@ -41,6 +43,15 @@ const HomePage = () => {
     }
   };
 
+  
+  const openModal = (book) => {
+    setSelectedBook(book); // Set the selected book data
+  };
+
+  const closeModal = () => {
+    setSelectedBook(null); // Close the modal
+  };
+
 
   return (
     <div className="container">
@@ -52,7 +63,7 @@ const HomePage = () => {
           <p className="no-results">No books found. Try a different search.</p>
         ) : (
           books.map((book) => (
-            <div key={book.key} className="book-card">
+            <div key={book.key} className="book-card" onClick={() => openModal(book)}>
               {book.cover_i ? (
                 <img
                   src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
@@ -94,6 +105,7 @@ const HomePage = () => {
           Next
         </button>
       </div>
+      {selectedBook && <BookModal book={selectedBook} closeModal={closeModal} />} {/* Display the modal when a book is selected */}
     </div>
   );
 };
