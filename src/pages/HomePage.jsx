@@ -15,64 +15,65 @@ const HomePage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(''); // Store selected language
   const [searchType, setSearchType] = useState('all'); // Store the selected search type
 
-   // Fetch books based on the search query, page, language and subject
-  const handleSearch = async (query, pageNumber = 1, language = '', subject = '', searchType = 'all') => {
+  // Fetch books based on the search query, page, language and subject
+  const handleSearch = async (query, searchType = 'all', pageNumber = 1, language = '') => {
     if (!query) return;
     setLoading(true);
     try {
       let url = `https://openlibrary.org/search.json?page=${pageNumber}&limit=12`;
-
+      const encodedQuery = encodeURIComponent(query);
+      // Construct the URL based on search type
       if (searchType === 'title') {
-        url += `&title=${query}`;
+        url += `&title=${encodedQuery}`;
       } else if (searchType === 'author') {
-        url += `&author=${query}`;
+        url += `&author=${encodedQuery}`;
       } else if (searchType === 'subject') {
-        url += `&subject=${query}`;
+        url += `&subject=${encodedQuery}`;
       } else {
-        url += `&q=${query}`;  // Default search for "all" fields
+        url += `&q=${encodedQuery}`;  // Default search for "all" fields
       }
 
+      // Add additional filters
       if (language) url += `&language=${language}`;
-      if (subject) url += `&subject=${subject}`;
 
       const response = await fetch(url);
       const data = await response.json();
       setBooks(data.docs);
 
-      //Pagination
+      // Pagination logic
       setTotalPages(Math.ceil(data.numFound / 12));
-    }  catch (error) {
+    } catch (error) {
       console.error("Error fetching books:", error);
     }
     setLoading(false);
     setHasSearched(true);
   };
 
-  //Handle the search operation
-  const onSearch = (query) => {
+  // Handle the search operation
+  const onSearch = (query='', searchType='all') => {
+    if (!query) return; 
     setSearchQuery(query);
     setPage(1);
-    handleSearch(query, 1, selectedLanguage, searchType);
+    handleSearch(query, searchType, 1, selectedLanguage);
   };
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
-      handleSearch(searchQuery, newPage, selectedLanguage, searchType);
+      handleSearch(searchQuery, searchType, newPage, selectedLanguage);
     }
   };
 
-   // Update search type
-   const handleSearchTypeChange = (event) => {
+  // Update search type
+  const handleSearchTypeChange = (event) => {
     setSearchType(event.target.value);
   };
 
   const handleLanguageChange = (event) => {
-    // Update selected language
+    // Update selected language and reset to first page when filter changes
     setSelectedLanguage(event.target.value);
-     // Reset to first page when filter changes
     setPage(1);
-    handleSearch(searchQuery, 1, event.target.value, searchType);   // Fetch books with selected language
+    handleSearch(searchQuery, searchType, 1, event.target.value);
   };
 
   const openModal = (book) => {
@@ -83,20 +84,17 @@ const HomePage = () => {
     setSelectedBook(null);
   };
 
-
   return (
     <div className="container">
       <h1>Your Book Finder</h1>
 
-            {/* Search Type Dropdown */}
-      {/* Pass searchType and handleSearchTypeChange to SearchBar */}
       <SearchBar 
         onSearch={onSearch}
         searchType={searchType}
         handleSearchTypeChange={handleSearchTypeChange}
-        selectedLanguage={selectedLanguage}        
+        selectedLanguage={selectedLanguage}
         handleLanguageChange={handleLanguageChange} 
-        hasSearched= {hasSearched}
+        hasSearched={hasSearched}
       />
 
       {loading && <Spinner />}
@@ -145,6 +143,7 @@ const HomePage = () => {
           Next
         </button>
       </div>
+
       {/* Display the modal when a book is selected */}
       {selectedBook && <BookModal book={selectedBook} closeModal={closeModal} />}
     </div>
