@@ -109,7 +109,8 @@ const HomePage = () => {
       />
 
        {/* Language Filter Dropdown */}
-      <div className="filter-section">
+      {hasSearched &&
+      (<div className="filter-section">
         <label htmlFor="language">Select Language:</label>
         <select id="language" value={selectedLanguage} onChange={handleLanguageChange}>
           <option value="">All Languages</option>
@@ -124,10 +125,10 @@ const HomePage = () => {
           <option value="por">Portuguese</option>
           <option value="und">Undetermined</option>
         </select>
-      </div>
+      </div>)}
 
        {/* Subject Filter Dropdown */}
-      <div className="filter-section">
+      {/* <div className="filter-section">
         <label htmlFor="subject">Select Subject:</label>
         <select id="subject" value={selectedSubject} onChange={handleSubjectFilter}>
           <option value="">All Subjects</option>
@@ -135,7 +136,7 @@ const HomePage = () => {
             <option key={index} value={subject}>{subject}</option>
           ))}
         </select>
-      </div>
+      </div> */}
 
       {loading && <Spinner />}
       <div className="book-results">
@@ -156,6 +157,13 @@ const HomePage = () => {
               <h3>{book.title}</h3>
               <p>{book.author_name?.join(', ')}</p>
               <p>{book.first_publish_year}</p>
+              {book.ratings_average ? (
+                <div className="book-rating">
+                  <span>Rating: {(book.ratings_average).toFixed(1)}</span><span> ({book.ratings_count} reviews)</span>
+                </div>
+              ) : (
+                <p className="no-rating">No rating available</p>
+              )}
             </div>
           ))
         )}

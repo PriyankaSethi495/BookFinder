@@ -28,7 +28,7 @@ const BookModal = ({ book, closeModal }) => {
             <div className="rating-stars">
             <RatingStars rating={book.ratings_average}/>
             </div>
-                {book.ratings_average ?  (                   
+            {book.ratings_average ?  (                   
             <p><strong>Average Rating:</strong> {book.ratings_average?.toFixed(1)} ({book.ratings_count} reviews)</p>
         
           ) : (<p>No ratings available</p>)}
@@ -36,8 +36,8 @@ const BookModal = ({ book, closeModal }) => {
 
           {/* Additional Info Section */}
           <div className="book-additional-info">
-            <p><strong>Publisher(s):</strong> {book.publisher?.join(', ')}</p>
-            <p><strong>Subject(s):</strong> {book.subject?.join(', ')}</p>
+            <p><strong>Publisher(s):</strong> {book.publisher?.length ? book.publisher.join(', ') : "Information unavailable"}</p>
+            <p><strong>Subject(s):</strong> {book.subject?.length ? book.subject.join(', ') : "Information unavailable"}</p>
             <p><strong>Available format(s):</strong> {book.format?.length ? book.format.join(', ') : "Information unavailable"}</p>
 
           </div>
