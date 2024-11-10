@@ -40,6 +40,8 @@ const HomePage = () => {
       const response = await fetch(url);
       const data = await response.json();
       setBooks(data.docs);
+
+      //Pagination
       setTotalPages(Math.ceil(data.numFound / 12));
 
       // Collect all subjects from the results
@@ -99,18 +101,12 @@ const HomePage = () => {
       <h1>Your Book Finder</h1>
 
             {/* Search Type Dropdown */}
-        <div className="search-container">
-        <div className="search-type">
-          <select value={searchType} onChange={handleSearchTypeChange}>
-            <option value="all">All</option>
-            <option value="author">Author</option>
-            <option value="title">Title</option>
-            <option value="subject">Subject</option>
-          </select>
-      </div>
-      
-      <SearchBar onSearch={onSearch} />
-      </div>
+      {/* Pass searchType and handleSearchTypeChange to SearchBar */}
+      <SearchBar 
+        onSearch={onSearch}
+        searchType={searchType}
+        handleSearchTypeChange={handleSearchTypeChange}
+      />
 
        {/* Language Filter Dropdown */}
       <div className="filter-section">
