@@ -6,16 +6,20 @@ const HomePage = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Fetch books based on the search query, page, and language
-  const handleSearch = async (query) => {
+  const handleSearch = async (query, pageNumber = 1) => {
     if (!query) return;
     setLoading(true);
     try {
-      const url = `https://openlibrary.org/search.json?title=${query}}`;
+      const url = `https://openlibrary.org/search.json?title=${query}&page=${pageNumber}&limit=12`;
       const response = await fetch(url);
       const data = await response.json();
       setBooks(data.docs);
+      setTotalPages(Math.ceil(data.numFound / 12));
     } catch (error) {
       console.error("Error fetching books:", error);
     }
@@ -23,10 +27,24 @@ const HomePage = () => {
     setHasSearched(true);
   };
 
+  const onSearch = (query) => {
+    setSearchQuery(query);
+    setPage(1);
+    handleSearch(query, 1);
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+    setPage(newPage);
+    handleSearch(searchQuery, newPage);
+    }
+  };
+
+
   return (
     <div className="container">
       <h1>Your Book Finder</h1>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={onSearch} />
       {loading ? (<p>Loading</p>):(
       <div className="book-results">
         {hasSearched && books.length === 0 ? (
@@ -50,6 +68,23 @@ const HomePage = () => {
           ))
         )}
       </div>)} 
+
+      
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1 || loading}
+        >
+          Previous
+        </button>
+        <span>Page {page} of {totalPages}</span>
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={loading || page === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
