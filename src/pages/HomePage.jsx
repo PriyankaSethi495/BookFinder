@@ -34,6 +34,15 @@ const HomePage = () => {
         ) : (
           books.map((book) => (
             <div key={book.key} className="book-card">
+              {book.cover_i ? (
+                <img
+                  src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+                  alt={book.title}
+                  className="book-cover"
+                />
+              ) : (
+                <div className="no-cover">No Cover Available</div>
+              )}
               <h3>{book.title}</h3>
               <p>{book.author_name?.join(', ')}</p>
               <p>{book.first_publish_year}</p>
