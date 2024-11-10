@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import '../styles/homepage.css';
+import Spinner from '../components/Spinner';
 
 const HomePage = () => {
   const [books, setBooks] = useState([]);
@@ -45,7 +46,8 @@ const HomePage = () => {
     <div className="container">
       <h1>Your Book Finder</h1>
       <SearchBar onSearch={onSearch} />
-      {loading ? (<p>Loading</p>):(
+      {loading && <Spinner />}
+
       <div className="book-results">
         {hasSearched && books.length === 0 ? (
           <p className="no-results">No books found. Try a different search.</p>
@@ -67,7 +69,7 @@ const HomePage = () => {
             </div>
           ))
         )}
-      </div>)} 
+      </div>
 
       
       <div className="pagination">
