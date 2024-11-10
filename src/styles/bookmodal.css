@@ -74,6 +74,12 @@
     margin: 0;
   }
   
+  .rating-stars {
+    font-size: 1.5rem;
+    display: flex;
+    gap: 5px;
+  }
+
   /* Additional Info Section */
   .book-additional-info p {
     margin: 5px 0;

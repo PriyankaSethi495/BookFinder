@@ -12,13 +12,14 @@ const HomePage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBook, setSelectedBook] = useState(null); // To store the selected book for modal
+  const [selectedLanguage, setSelectedLanguage] = useState(''); // Store selected language
 
   // Fetch books based on the search query, page, and language
-  const handleSearch = async (query, pageNumber = 1) => {
+  const handleSearch = async (query, pageNumber = 1, language = '') => {
     if (!query) return;
     setLoading(true);
     try {
-      const url = `https://openlibrary.org/search.json?title=${query}&page=${pageNumber}&limit=12`;
+      const url = `https://openlibrary.org/search.json?title=${query}&page=${pageNumber}&limit=12${language ? `&language=${language}` : ''}`;
       const response = await fetch(url);
       const data = await response.json();
       setBooks(data.docs);
@@ -33,16 +34,21 @@ const HomePage = () => {
   const onSearch = (query) => {
     setSearchQuery(query);
     setPage(1);
-    handleSearch(query, 1);
+    handleSearch(query, 1, selectedLanguage);
   };
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
     setPage(newPage);
-    handleSearch(searchQuery, newPage);
+    handleSearch(searchQuery, newPage, selectedLanguage);
     }
   };
 
+  const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value); // Update selected language
+    setPage(1); // Reset to first page when filter changes
+    handleSearch(searchQuery, 1, event.target.value); // Fetch books with selected language
+  };
   
   const openModal = (book) => {
     setSelectedBook(book); // Set the selected book data
@@ -57,6 +63,26 @@ const HomePage = () => {
     <div className="container">
       <h1>Your Book Finder</h1>
       <SearchBar onSearch={onSearch} />
+      
+        {/* Language Filter Dropdown */}
+        <div className="filter-section">
+        <label htmlFor="language">Select Language:</label>
+        <select id="language" value={selectedLanguage} onChange={handleLanguageChange}>
+        <option value="">All Languages</option>
+        <option value="eng">English</option>
+        <option value="fre">French</option>
+        <option value="ger">German</option>
+        <option value="spa">Spanish</option>
+        <option value="ita">Italian</option>
+        <option value="chi">Chinese</option>
+        <option value="cmn">Mandarin</option>
+        <option value="hin">Hindi</option>
+        <option value="por">Portuguese</option>
+        <option value="und">Undetermined</option>
+          {/* Add more language options as needed */}
+        </select>
+      </div>
+
       {loading && <Spinner />}
       <div className="book-results">
         {hasSearched && books.length === 0 ? (
