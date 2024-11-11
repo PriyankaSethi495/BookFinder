@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/homepage.css'
 
 const SearchBar = ({ onSearch, searchType, handleSearchTypeChange, selectedLanguage, handleLanguageChange, hasSearched }) => {
   const [query, setQuery] = useState('');

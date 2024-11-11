@@ -25,7 +25,7 @@ body {
     border: 1px solid #ccc;
   }
   
-  .search-button {
+  .search-button, .container button {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #4CAF50;
@@ -35,7 +35,7 @@ body {
     cursor: pointer;
   }
   
-  .search-button:hover {
+  .search-button:hover, .container button:hover {
     background-color: #45a049;
   }
   
@@ -258,7 +258,7 @@ body {
   
   .search-container button {
     cursor: pointer;
-    background-color: #45a049;
+    background-color: #4CAF50;
     color: white;
     border: none;
   }
@@ -271,4 +271,93 @@ body {
     .search-container{
         flex-direction: column;
     }
+  }
+
+  /* Advanced Search Section */
+.advanced-search {
+    background-color: #d9e3d1; /* Dark background to match theme */
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+    color: black;
+  }
+  
+  /* Title and Label Styling */
+  .advanced-search p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .advanced-search label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block; /* Ensure labels are block elements for better alignment */
+  }
+  
+  /* Input Fields Styling */
+  .advanced-search input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%; /* Ensure inputs take up full width within container */
+    box-sizing: border-box; /* Prevent inputs from overflowing */
+  }
+  
+  .advanced-search input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Button Styling */
+  .advanced-search button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-start; /* Align the button to the left */
+  }
+  
+  .advanced-search button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Responsive Design for Smaller Screens */
+  @media screen and (max-width: 900px) {
+    .advanced-search {
+      padding: 15px; /* Less padding for smaller screens */
+      max-width: 100%; /* Ensure the container takes up the full width */
+    }
+  
+    .advanced-search input,
+    .advanced-search button {
+      width: 100%; /* Ensure inputs and buttons take up the full width */
+      margin-bottom: 10px; /* Add spacing between inputs and button */
+    }
+  }
+  
+  /* Ensures that form fields align properly */
+  .advanced-search input[type="text"],
+  .advanced-search input[type="number"] {
+    width: 100%; /* Ensure full width */
+  }
+  
+  .advanced-search input[type="text"]:focus,
+  .advanced-search input[type="number"]:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .advanced-button {
+    margin-bottom: 25px;
   }
