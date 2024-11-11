@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import BookResults from '../components/BookResults';
-import LanguageDropdown from '../components/LanguageDropdown';
+import AdvancedSearch from '../components/AdvancedSearch';
 import '../styles/homepage.css';
 
 const HomePage = () => {
@@ -153,30 +153,16 @@ const HomePage = () => {
         {isAccordion ? 'Show Advanced Search' : 'Back to Basic Search'}
       </button>
 
-      {/* Advanced search */}
+      {/* Advanced Search component */}
       {!isAccordion && (
-        <div className="advanced-search">
-          <p>Advanced Search Options:</p>
-          {/* Render input fields for each advanced search criterion */}
-          {['author', 'title', 'year', 'subject', 'publisher'].map((field) => (
-            <label key={field}>
-              {field.charAt(0).toUpperCase() + field.slice(1)}:
-              <input
-                type="text"
-                name={field}
-                value={advancedSearch[field]}
-                onChange={handleAdvancedSearchChange}
-                placeholder={`Enter ${field}`}
-              />
-            </label>
-          ))}
-          {/* Language dropdown for advanced search */}
-          {hasSearched && <LanguageDropdown 
-            selectedLanguage={advancedLanguage} 
-            handleLanguageChange={handleLanguageChange} 
-          />}
-          <button onClick={onAdvancedSearch}>Search</button>
-        </div>
+        <AdvancedSearch
+          advancedSearch={advancedSearch}
+          onAdvancedSearch={onAdvancedSearch}
+          handleAdvancedSearchChange={handleAdvancedSearchChange}
+          selectedLanguage={advancedLanguage}
+          handleLanguageChange={handleLanguageChange}
+          hasSearched={hasSearched}
+        />
       )}
 
       {/* Render BookResults component to display search results */}
