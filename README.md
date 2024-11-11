@@ -10,6 +10,7 @@ A simple web app for searching books using the [Open Library API](https://openli
 - **Pagination**: Browse through pages of search results.
 - **Book Details**: View additional information about each book in a modal.
 - **Toggle Between Basic and Advanced Search**: Switch seamlessly between basic and advanced search modes.
+- **Responsive**: The app is responsive and adapts to different screen sizes, providing an optimal user experience on mobile, tablet, and desktop devices.
 
 ## Tech Stack
 
@@ -50,17 +51,19 @@ Ensure that you have the following installed:
 
 ## Usage
 - **Basic Search**:
+  - Select the search type (All, Title, Author, Subject)
   - Enter a search term in the search bar.
-  - Select the search type (All, Title, Author, Subject).
-  - Choose a language filter and click "Search".
+  - Click on Search button to fetch results.
+  - Choose a language filter if needed and click "Search".
 
 - **Advanced Search**:
   - Toggle the "Show Advanced Search" button.
   - Fill out additional filters such as author, title, publisher, and publication year.
-  - Choose a language and click "Search".
+  - Click on Search button to fetch results.
+  - Choose a language if needed and click "Search".
 
 - **View Book Details**:
-  - Click on any book title to view more details in a modal.
+  - Click on any book card to view more details in a modal.
 
 - **Pagination**:
   - Navigate through the search results using the "Previous" and "Next" buttons.
