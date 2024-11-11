@@ -325,7 +325,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    align-self: flex-start; /* Align the button to the left */
+    align-self: center; /* Align the button to the left */
   }
   
   .advanced-search button:hover {
@@ -336,12 +336,10 @@ body {
   @media screen and (max-width: 900px) {
     .advanced-search {
       padding: 15px; /* Less padding for smaller screens */
-      max-width: 100%; /* Ensure the container takes up the full width */
     }
   
     .advanced-search input,
     .advanced-search button {
-      width: 100%; /* Ensure inputs and buttons take up the full width */
       margin-bottom: 10px; /* Add spacing between inputs and button */
     }
   }

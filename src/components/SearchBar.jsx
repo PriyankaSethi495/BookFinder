@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/homepage.css'
+import LanguageDropdown from './LanguageDropdown';
 
 const SearchBar = ({ onSearch, searchType, handleSearchTypeChange, selectedLanguage, handleLanguageChange, hasSearched }) => {
   const [query, setQuery] = useState('');
@@ -31,22 +32,11 @@ const SearchBar = ({ onSearch, searchType, handleSearchTypeChange, selectedLangu
         
         {/* Language Filter Dropdown */}
         {hasSearched && (
-          <div className="filter-section">
-            <select value={selectedLanguage} onChange={handleLanguageChange}>
-              <option value="">All Languages</option>
-              <option value="eng">English</option>
-              <option value="fre">French</option>
-              <option value="ger">German</option>
-              <option value="spa">Spanish</option>
-              <option value="ita">Italian</option>
-              <option value="chi">Chinese</option>
-              <option value="cmn">Mandarin</option>
-              <option value="hin">Hindi</option>
-              <option value="por">Portuguese</option>
-              <option value="und">Undetermined</option>
-            </select>
-          </div>
-        )}
+        <LanguageDropdown 
+          selectedLanguage={selectedLanguage} 
+          handleLanguageChange={handleLanguageChange} 
+        />
+      )}
         
         <button onClick={handleSearch} className="search-button">
             Search
