@@ -67,4 +67,7 @@ Ensure that you have the following installed:
 
 - **Pagination**:
   - Navigate through the search results using the "Previous" and "Next" buttons.
+ 
+
+Future versions could include infinite scrolling and sorting of the results.
 
