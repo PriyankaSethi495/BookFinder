@@ -108,6 +108,10 @@ const HomePage = () => {
     });
     setBasicLanguage(''); // Reset language for basic search
     setAdvancedLanguage(''); // Reset language for advanced search
+    // Reset pagination for both Basic and Advanced modes
+    setCurrentPageBasic(1);
+    setCurrentPageAdvanced(1);
+    setTotalPages(0);
   };
 
   // Single search handler for advanced search
@@ -185,46 +189,49 @@ const HomePage = () => {
         closeModal={closeModal}
       />
 
-      {/* Pagination controls */}
-      <div className="pagination">
-        <button
-          onClick={() => {
-            const newPage = isAccordion ? currentPageBasic - 1 : currentPageAdvanced - 1;
-            if (newPage >= 1) {
-              isAccordion ? setCurrentPageBasic(newPage) : setCurrentPageAdvanced(newPage);
-              handleSearch(
-                searchQuery,
-                newPage,
-                isAccordion ? basicLanguage : advancedLanguage,
-                !isAccordion
-              );
-            }
-          }}
-          disabled={isAccordion ? currentPageBasic === 1 : currentPageAdvanced === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {isAccordion ? currentPageBasic : currentPageAdvanced} of {totalPages}
-        </span>
-        <button
-          onClick={() => {
-            const newPage = isAccordion ? currentPageBasic + 1 : currentPageAdvanced + 1;
-            if (newPage <= totalPages) {
-              isAccordion ? setCurrentPageBasic(newPage) : setCurrentPageAdvanced(newPage);
-              handleSearch(
-                searchQuery,
-                newPage,
-                isAccordion ? basicLanguage : advancedLanguage,
-                !isAccordion
-              );
-            }
-          }}
-          disabled={isAccordion ? currentPageBasic === totalPages : currentPageAdvanced === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {/* Pagination controls */} 
+      {hasSearched && totalPages > 0 && (
+        <div className="pagination">
+          <button
+            onClick={() => {
+              const newPage = isAccordion ? currentPageBasic - 1 : currentPageAdvanced - 1;
+              if (newPage >= 1) {
+                isAccordion ? setCurrentPageBasic(newPage) : setCurrentPageAdvanced(newPage);
+                handleSearch(
+                  searchQuery,
+                  newPage,
+                  isAccordion ? basicLanguage : advancedLanguage,
+                  !isAccordion
+                );
+              }
+            }}
+            disabled={isAccordion ? currentPageBasic === 1 : currentPageAdvanced === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {isAccordion ? currentPageBasic : currentPageAdvanced} of {totalPages}
+          </span>
+          <button
+            onClick={() => {
+              const newPage = isAccordion ? currentPageBasic + 1 : currentPageAdvanced + 1;
+              if (newPage <= totalPages) {
+                isAccordion ? setCurrentPageBasic(newPage) : setCurrentPageAdvanced(newPage);
+                handleSearch(
+                  searchQuery,
+                  newPage,
+                  isAccordion ? basicLanguage : advancedLanguage,
+                  !isAccordion
+                );
+              }
+            }}
+            disabled={isAccordion ? currentPageBasic === totalPages : currentPageAdvanced === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
+
     </div>
   );
 };
