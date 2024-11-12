@@ -17,9 +17,9 @@ const BookModal = ({ book, closeModal }) => {
             <h2>{book.title}</h2>
             <p> {book.first_sentence ? `${book.first_sentence[0]}...` : ""}</p>
 
-            <p><strong>Author:</strong> {book.author_name?.join(', ')}</p>
+            <p><strong>Author:</strong> {book.author_name?.length ? book.author_name.join(', ') : "Information unavailable"}</p>
             <p><strong>First Published:</strong> {book.first_publish_year}</p>
-            <p><strong>Language:</strong> {book.language?.join(', ')}</p>
+            <p><strong>Language:</strong> {book.language?.length ? book.language.join(', ') : "Information unavailable"}</p>
           </div>
 
           {/* Rating Section */}
