@@ -37,36 +37,37 @@ const HomePage = () => {
   // Function to handle API search requests for both basic and advanced search
   const handleSearch = async (query, pageNumber = 1, language = '', isAdvanced = false) => {
     const params = new URLSearchParams({
-      page: pageNumber,
-      limit: 12,
+        page: pageNumber,
+        limit: 12,
+        fields: 'key,title,author_name,cover_i,first_publish_year,ratings_average,ratings_count',
     });
 
-    // Append advanced search related filters
     if (isAdvanced) {
-      if (advancedSearch.author) params.append('author', advancedSearch.author);
-      if (advancedSearch.title) params.append('title', advancedSearch.title);
-      if (advancedSearch.year) params.append('first_publish_year', advancedSearch.year);
-      if (advancedSearch.subject) params.append('subject', advancedSearch.subject);
-      if (advancedSearch.publisher) params.append('publisher', advancedSearch.publisher);
-      if (language) params.append('language', language);
+        if (advancedSearch.author) params.append('author', advancedSearch.author);
+        if (advancedSearch.title) params.append('title', advancedSearch.title);
+        if (advancedSearch.year) params.append('first_publish_year', advancedSearch.year);
+        if (advancedSearch.subject) params.append('subject', advancedSearch.subject);
+        if (advancedSearch.publisher) params.append('publisher', advancedSearch.publisher);
+        if (language) params.append('language', language);
     } else {
-      // Append filters for basic search
-      if (query) params.append(searchType === 'all' ? 'q' : searchType, query);
-      if (language) params.append('language', language);
+        if (query) params.append(searchType === 'all' ? 'q' : searchType, query);
+        if (language) params.append('language', language);
     }
+
     setLoading(true);
     try {
-      // Fetch search results from the Open Library API
-      const response = await fetch(`https://openlibrary.org/search.json?${params.toString()}`);
-      const data = await response.json();
-      setBooks(data.docs);
-      setTotalPages(Math.ceil(data.numFound / 12)); // Calculate total pages based on results
+        const response = await fetch(`https://openlibrary.org/search.json?${params.toString()}`);
+        const data = await response.json();
+        console.log("API Response:", data);  // Debugging
+        setBooks(data.docs || []);
+        setTotalPages(Math.ceil((data.numFound || 0) / 12)); // Handle missing numFound
     } catch (error) {
-      console.error("Error fetching books:", error);
+        console.error("Error fetching books:", error);
     }
     setLoading(false);
-    setHasSearched(true); 
-  };
+    setHasSearched(true);
+};
+
 
   // Handler for a basic search
   const onSearch = (query = '', searchType = 'all') => {
