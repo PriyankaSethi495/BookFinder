@@ -39,7 +39,7 @@ const HomePage = () => {
     const params = new URLSearchParams({
         page: pageNumber,
         limit: 12,
-        fields: 'key,title,author_name,cover_i,first_publish_year,ratings_average,ratings_count',
+        fields: 'key,title,author_name,cover_i,first_publish_year,ratings_average,ratings_count,language,first_publish_year,publisher,subject,format',
     });
 
     if (isAdvanced) {

@@ -15,6 +15,11 @@ const AdvancedSearch = ({ advancedSearch, onAdvancedSearch, handleAdvancedSearch
           value={advancedSearch[field]}
           onChange={handleAdvancedSearchChange}
           placeholder={`Enter ${field}`}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              onAdvancedSearch(); // Call the additional function
+            }
+          }} 
         />
       </label>
     ))}
