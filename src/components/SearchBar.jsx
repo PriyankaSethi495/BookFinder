@@ -10,6 +10,12 @@ const SearchBar = ({ onSearch, searchType, handleSearchTypeChange, selectedLangu
     onSearch(query, searchType);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+        onSearch(query, searchType);
+    }
+};
+
   return (
     <div className='search-container'>
         {/* Search Type Dropdown */}
@@ -27,6 +33,7 @@ const SearchBar = ({ onSearch, searchType, handleSearchTypeChange, selectedLangu
             placeholder="Search for a book..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyPress}  
             className="search-input"
         />
         
